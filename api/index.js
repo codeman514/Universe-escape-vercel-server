@@ -8,8 +8,9 @@ const pool = new Pool({
 
 export default async function handler(req, res) {
   try {
-    const result = await pool.query('SELECT NOW()');
-    res.status(200).json({ success: true, time: result.rows[0].now });
+    const {query} = req.body;
+    const result = await pool.query(query);
+    res.status(200).json({ success: true, data: result.rows });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
